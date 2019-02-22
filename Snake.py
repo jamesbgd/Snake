@@ -9,14 +9,15 @@ class Snake():
 
     def __init__(self, startX, startY):
         self.xVel = 0
-        self.yVel = MAX_VEL
+        self.yVel = -MAX_VEL
         self.snakeSize = 10 # length and width of each segment (square)
         self.lastPos = None
 
         self.surf = pygame.Surface((self.snakeSize, self.snakeSize))
         self.surf.fill((255,255,255))
 
-        self.body = [(startX, startY)] # (500, TEST-(1*self.snakeSize)), (500, TEST-(2*self.snakeSize)), (500, TEST-(3*self.snakeSize)), (500, TEST-(4*self.snakeSize)), (500, TEST-(5*self.snakeSize)), (500, TEST-(6*self.snakeSize)), (500, TEST-(7*self.snakeSize)), (500, TEST-(8*self.snakeSize)), (500, TEST-(9*self.snakeSize)), (500, TEST-(10*self.snakeSize))]
+        self.body = ([(startX - self.snakeSize, startY - self.snakeSize),
+                     (startX - self.snakeSize, startY)])
     
     def getSize(self):
         return self.snakeSize
@@ -48,7 +49,10 @@ class Snake():
     def drawSnake(self, surface):
         for segment in self.body:
             pygame.draw.rect(surface, (255, 255, 255), (segment[0], segment[1], self.snakeSize, self.snakeSize))
-            #surface.blit(self.surf, (segment[0], segment[1]))
+                
+    def printSnake(self):
+        for i in range(0, len(self.body)):
+            print("Segment " + str(i) + " coordinate: " + str(self.body[i]))
 
     def getBody(self):
         return self.body
