@@ -37,7 +37,6 @@ class Snake():
             self.yVel = 0
 
     def moveSnake(self):
-        #update the lastPosition
         self.lastPos =  self.body[-1]
         oldHead = self.body[0]
         newHead = (oldHead[0] + self.xVel, oldHead[1] + self.yVel)
@@ -49,7 +48,7 @@ class Snake():
     def drawSnake(self, surface):
         for segment in self.body:
             pygame.draw.rect(surface, (255, 255, 255), (segment[0], segment[1], self.snakeSize, self.snakeSize))
-                
+
     def printSnake(self):
         for i in range(0, len(self.body)):
             print("Segment " + str(i) + " coordinate: " + str(self.body[i]))
