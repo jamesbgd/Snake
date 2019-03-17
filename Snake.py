@@ -22,19 +22,30 @@ class Snake():
     def getSize(self):
         return self.snakeSize
 
-    def changeDir(self, keyPress):
-        if keyPress[K_UP] and self.yVel != MAX_VEL:
+    def changeDir(self, keyEvent):
+        """ keEvent --> Bool
+        changeDir takes a pygame KEYDOWN event and changes the direction of
+        the Snake if the event was an arrow key.
+        The boolean return tells whether the direction was changed or not.
+        """
+        didChangeDir = False
+        if keyEvent.key == K_UP and self.yVel != MAX_VEL:
             self.xVel = 0
             self.yVel = -MAX_VEL
-        elif keyPress[K_DOWN] and self.yVel != -MAX_VEL:
+            didChangeDir = True
+        elif keyEvent.key == K_DOWN and self.yVel != -MAX_VEL:
             self.xVel = 0
             self.yVel = MAX_VEL
-        elif keyPress[K_LEFT] and self.xVel != MAX_VEL:
+            didChangeDir = True
+        elif keyEvent.key == K_LEFT and self.xVel != MAX_VEL:
             self.xVel = -MAX_VEL
             self.yVel = 0
-        elif keyPress[K_RIGHT] and self.xVel != -MAX_VEL:
+            didChangeDir = True
+        elif keyEvent.key == K_RIGHT and self.xVel != -MAX_VEL:
             self.xVel = MAX_VEL
             self.yVel = 0
+            didChangeDir = True
+        return didChangeDir
 
     def moveSnake(self):
         self.lastPos =  self.body[-1]

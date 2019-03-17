@@ -57,9 +57,9 @@ class SnakeGame():
         surface.blit(scoreSurface, (self.scorePosX, 0))
 
     def drawSplashScreen(self, surface, text, color):
-        ''' Surface, String --> void
+        """ Surface, String --> void
         Draws text centered at the center of the given Surface.
-        '''
+        """
         splashFont = pygame.font.Font(None, 100)
         splashSurface = splashFont.render(text, True, color)
         textXPos = (SCREEN_SIZE[0] // 2) - (splashFont.size(text)[0] // 2)
@@ -84,22 +84,24 @@ class SnakeGame():
             if event.type == KEYDOWN:
                 break
 
-        while True:#self.playing: # main loop for running the game
+        while True:# main loop for running the game
+            pygame.event.pump()
             SCREEN.blit(BG, (0, 0)) # Makes clean background
             self.apple.drawApple(SCREEN, self.snake.getSize())
             self.snake.drawSnake(SCREEN)
             self.drawScore(SCREEN)
             pygame.display.flip()
 
+            # Handle Key events
+            didChangeDir = False
+            for event in pygame.event.get():
+                self.handleQuit(event)
+                if event.type == KEYDOWN and not didChangeDir:
+                    didChangeDir = self.snake.changeDir(event)
+            
             # Move the snake
             self.snake.moveSnake()
 
-            # Handle Key events
-            for event in pygame.event.get():
-                self.handleQuit(event)
-            pressedKeys = pygame.key.get_pressed()
-            self.snake.changeDir(pressedKeys)
-            
             # Handle Collisions
             if self.isSnakeCollision():
                 self.snake.drawSnake(SCREEN) # update the snake's position to when it crashed
@@ -121,6 +123,8 @@ class SnakeGame():
 
 def main():
     pygame.init()
+    pygame.event.set_allowed(None) # No event types are allowed on queue
+    pygame.event.set_allowed([QUIT, KEYDOWN])
     while True:
         game = SnakeGame()
         game.play()
