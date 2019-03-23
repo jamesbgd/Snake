@@ -25,6 +25,7 @@ class SnakeGame():
         self.apple = Apple()
         self.apple.placeApple(self.snake.getBody(), SCREEN_SIZE[0], SCREEN_SIZE[1])
         self.scorePosX = SCREEN_SIZE[0] // 2 - 10
+        self.eatingSound = pygame.mixer.Sound('Eating.ogg')
 
     def reset(self):
         self.score = 0
@@ -114,6 +115,7 @@ class SnakeGame():
                         self.reset()
                         break
             if self.isAppleCollision():
+                self.eatingSound.play()
                 self.apple.placeApple(self.snake.getBody(), SCREEN_SIZE[0], SCREEN_SIZE[1])
                 self.snake.addSegment()
                 self.score +=1
@@ -123,6 +125,7 @@ class SnakeGame():
 
 def main():
     pygame.init()
+    pygame.mixer.init()
     pygame.event.set_allowed(None) # No event types are allowed on queue
     pygame.event.set_allowed([QUIT, KEYDOWN])
     while True:
