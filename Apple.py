@@ -1,6 +1,8 @@
 import pygame
 import random
 
+# this is just for fun comment
+
 def isIn(pos, listofPos):
     for point in listofPos:
         if pos == point:
